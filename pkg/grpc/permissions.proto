@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package permissions;
+
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/sandrolain/permissions/grpc;permissionsGrpc";
+
+service PermissionsService {
+  rpc GetUserRoles(GetUserRolesRequest) returns (GetUserRolesResponse) {}
+  rpc SetUserRole(SetUserRoleRequest) returns (SetUserRoleResponse) {}
+  rpc UnsetUserRole(UnsetUserRoleRequest) returns (UnsetUserRoleResponse) {}
+
+  rpc GetGlobalScopes(GetGlobalScopesRequest)
+      returns (GetGlobalScopesResponse) {}
+  rpc GetRoleScopes(GetRoleScopesRequest) returns (GetRoleScopesResponse) {}
+  rpc GetUserScopes(GetUserScopesRequest) returns (GetUserScopesResponse) {}
+
+  rpc SetGlobalScope(SetGlobalScopeRequest) returns (SetGlobalScopeResponse) {}
+  rpc SetRoleScope(SetRoleScopeRequest) returns (SetRoleScopeResponse) {}
+  rpc SetUserScope(SetUserScopeRequest) returns (SetUserScopeResponse) {}
+
+  rpc UnsetGlobalScope(UnsetGlobalScopeRequest)
+      returns (UnsetGlobalScopeResponse) {}
+  rpc UnsetRoleScope(UnsetRoleScopeRequest) returns (UnsetRoleScopeResponse) {}
+  rpc UnsetUserScope(UnsetUserScopeRequest) returns (UnsetUserScopeResponse) {}
+
+  rpc GlobalAllowed(GlobalAllowedRequest) returns (GlobalAllowedResponse) {}
+  rpc RoleAllowed(RoleAllowedRequest) returns (RoleAllowedResponse) {}
+  rpc UserAllowed(UserAllowedRequest) returns (UserAllowedResponse) {}
+}
+
+message GetUserRolesRequest {
+  string user = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+}
+message GetUserRolesResponse {
+  repeated string roles = 1
+      [ (buf.validate.field).string = {pattern : "^[A-Za-z0-9_-]+$"} ];
+}
+
+message SetUserRoleRequest {
+  string user = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string role = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+}
+message SetUserRoleResponse {
+  bool affected = 1;
+  repeated string roles = 2
+      [ (buf.validate.field).string = {pattern : "^[A-Za-z0-9_-]+$"} ];
+}
+
+message UnsetUserRoleRequest {
+  string user = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string role = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+}
+message UnsetUserRoleResponse {
+  bool affected = 1;
+  repeated string roles = 2
+      [ (buf.validate.field).string = {pattern : "^[A-Za-z0-9_-]+$"} ];
+}
+
+message ScopeItem {
+  string scope = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  bool allowed = 2;
+}
+
+message GetGlobalScopesRequest {
+  string scope_pattern = 1
+      [ (buf.validate.field).string = {pattern : "^[A-Za-z0-9:/*_-]+$"} ];
+}
+message GetGlobalScopesResponse { repeated ScopeItem scopes = 1; }
+
+message GetRoleScopesRequest {
+  string role = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope_pattern = 2
+      [ (buf.validate.field).string = {pattern : "^[A-Za-z0-9:/*_-]+$"} ];
+}
+message GetRoleScopesResponse { repeated ScopeItem scopes = 1; }
+
+message GetUserScopesRequest {
+  string user = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope_pattern = 2
+      [ (buf.validate.field).string = {pattern : "^[A-Za-z0-9:/*_-]+$"} ];
+}
+message GetUserScopesResponse { repeated ScopeItem scopes = 1; }
+
+message SetGlobalScopeRequest {
+  string scope = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  bool allowed = 2;
+}
+message SetGlobalScopeResponse { bool affected = 1; }
+
+message SetRoleScopeRequest {
+  string role = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  bool allowed = 3;
+}
+message SetRoleScopeResponse { bool affected = 1; }
+
+message SetUserScopeRequest {
+  string user = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  bool allowed = 3;
+}
+message SetUserScopeResponse { bool affected = 1; }
+
+message UnsetGlobalScopeRequest {
+  string scope = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+}
+message UnsetGlobalScopeResponse { bool affected = 1; }
+
+message UnsetRoleScopeRequest {
+  string role = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+}
+message UnsetRoleScopeResponse { bool affected = 1; }
+
+message UnsetUserScopeRequest {
+  string user = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+}
+message UnsetUserScopeResponse { bool affected = 1; }
+
+message GlobalAllowedRequest {
+  string scope = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_:/*-]+$"}
+  ];
+}
+
+message GlobalAllowedResponse { bool allowed = 1; }
+
+message RoleAllowedRequest {
+  string role = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_:/*-]+$"}
+  ];
+}
+
+message RoleAllowedResponse { bool allowed = 1; }
+
+message UserAllowedRequest {
+  string user = 1 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_-]+$"}
+  ];
+  string scope = 2 [
+    (buf.validate.field).string = {min_len : 1, pattern : "^[A-Za-z0-9_:/*-]+$"}
+  ];
+}
+
+message UserAllowedResponse { bool allowed = 1; }
