@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
+	pb "github.com/sandrolain/permissions/pkg/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "github.com/sandrolain/permissions/pkg/grpc"
 )
 
 // This example shows how to manage scopes (permissions) at various levels:
@@ -20,9 +20,8 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	conn, err := grpc.Dial("localhost:50051",
+	conn, err := grpc.NewClient("localhost:50051",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithBlock(),
 	)
 	if err != nil {
 		log.Fatalf("Unable to connect: %v", err)
@@ -33,7 +32,7 @@ func main() {
 
 	// 1. Global scope management
 	log.Println("=== Global Scope Management ===")
-	
+
 	// Set some global scopes
 	globalScopes := []struct {
 		scope   string
@@ -68,7 +67,7 @@ func main() {
 
 	// 2. Role scope management
 	log.Println("\n=== Role Scope Management ===")
-	
+
 	roleScopes := []struct {
 		role    string
 		scope   string
@@ -105,7 +104,7 @@ func main() {
 
 	// 3. User scope management
 	log.Println("\n=== User Scope Management ===")
-	
+
 	// Set some user-specific scopes
 	userScopes := []struct {
 		user    string
@@ -131,11 +130,11 @@ func main() {
 
 	// 4. Permission verification
 	log.Println("\n=== Permission Verification ===")
-	
+
 	// Check various types of permissions
 	checksToPerform := []struct {
 		description string
-		check      func() (bool, error)
+		check       func() (bool, error)
 	}{
 		{
 			"Global permission documents:read",

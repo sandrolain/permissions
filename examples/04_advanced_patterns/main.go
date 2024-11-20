@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
+	pb "github.com/sandrolain/permissions/pkg/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "github.com/sandrolain/permissions/pkg/grpc"
 )
 
 // This example shows advanced patterns for using the Permissions service:
@@ -24,9 +24,8 @@ type PermissionsClient struct {
 
 // NewPermissionsClient creates a new client instance
 func NewPermissionsClient(address string) (*PermissionsClient, error) {
-	conn, err := grpc.Dial(address,
+	conn, err := grpc.NewClient(address,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithBlock(),
 	)
 	if err != nil {
 		return nil, err

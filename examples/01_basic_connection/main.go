@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
+	pb "github.com/sandrolain/permissions/pkg/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "github.com/sandrolain/permissions/pkg/grpc"
 )
 
 // This example shows how to establish a connection with the Permissions service
@@ -20,9 +20,8 @@ func main() {
 
 	// Create a gRPC connection
 	// In production, you should use appropriate credentials instead of insecure.NewCredentials()
-	conn, err := grpc.Dial("localhost:50051", 
+	conn, err := grpc.NewClient("localhost:50051",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithBlock(),
 	)
 	if err != nil {
 		log.Fatalf("Unable to connect: %v", err)
