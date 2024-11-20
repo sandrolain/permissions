@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/sandrolain/permissions/pkg/models"
+	"github.com/sandrolain/permissions/internal/models"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

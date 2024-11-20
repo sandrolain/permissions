@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/sandrolain/gomsvc/pkg/dblib"
-	"github.com/sandrolain/permissions/pkg/models"
+	"github.com/sandrolain/permissions/internal/models"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -21,12 +21,13 @@ type DBService struct {
 }
 
 func (m *DBService) GetScopes(ctx context.Context, entity string, scopePattern string) (res []models.Permission, err error) {
-	q := m.db.WithContext(ctx).Where("entity = ?", entity)
-	q.Where("scope NOT LIKE ?", models.RolePrefix+"%")
+	q := m.db.WithContext(ctx).
+		Where("entity = ?", entity).
+		Where("scope NOT LIKE ?", models.RolePrefix+"%")
 
 	if scopePattern != "" {
 		scopePattern = EscapePattern(scopePattern)
-		q.Where("scope LIKE ?", scopePattern)
+		q = q.Where("scope LIKE ?", scopePattern)
 	}
 
 	tx := q.Select("scope", "allowed").Find(&res)

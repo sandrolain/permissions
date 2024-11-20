@@ -3,8 +3,8 @@ package dbsvc
 import (
 	"testing"
 
+	"github.com/sandrolain/permissions/internal/models"
 	g "github.com/sandrolain/permissions/pkg/grpc"
-	"github.com/sandrolain/permissions/pkg/models"
 	"github.com/stretchr/testify/assert"
 )
 

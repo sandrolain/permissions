@@ -145,8 +145,8 @@ func TestInvalidScopes(t *testing.T) {
 		{
 			name:         "valid inputs",
 			entity:       "user123",
-			scope:        "read",
-			pattern:      "read*",
+			scope:        "read:me",
+			pattern:      "read:*",
 			wantSetErr:   false,
 			wantGetErr:   false,
 			wantUnsetErr: false,

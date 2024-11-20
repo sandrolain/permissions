@@ -5,10 +5,10 @@ import (
 	"github.com/sandrolain/gomsvc/pkg/grpclib"
 	"github.com/sandrolain/gomsvc/pkg/svc"
 	"github.com/sandrolain/permissions/internal/dbsvc"
+	"github.com/sandrolain/permissions/internal/models"
 	im "github.com/sandrolain/permissions/internal/models"
 	"github.com/sandrolain/permissions/internal/svcgrpc"
 	g "github.com/sandrolain/permissions/pkg/grpc"
-	"github.com/sandrolain/permissions/pkg/models"
 )
 
 func main() {

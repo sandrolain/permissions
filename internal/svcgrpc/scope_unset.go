@@ -5,8 +5,8 @@ import (
 
 	"github.com/sandrolain/gomsvc/pkg/grpclib"
 	"github.com/sandrolain/permissions/internal/dbsvc"
+	"github.com/sandrolain/permissions/internal/models"
 	g "github.com/sandrolain/permissions/pkg/grpc"
-	"github.com/sandrolain/permissions/pkg/models"
 )
 
 func (m *grpcServer) UnsetUserScope(ctx context.Context, req *g.UnsetUserScopeRequest) (res *g.UnsetUserScopeResponse, err error) {

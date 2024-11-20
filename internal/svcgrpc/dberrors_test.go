@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/sandrolain/permissions/internal/dbsvc"
+	"github.com/sandrolain/permissions/internal/models"
 	g "github.com/sandrolain/permissions/pkg/grpc"
-	"github.com/sandrolain/permissions/pkg/models"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

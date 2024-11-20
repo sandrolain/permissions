@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/sandrolain/permissions/internal/models"
 	g "github.com/sandrolain/permissions/pkg/grpc"
-	"github.com/sandrolain/permissions/pkg/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -92,9 +92,9 @@ func TestRoleAllowed(t *testing.T) {
 		{
 			name:  "role allowed",
 			role:  "admin",
-			scope: "test_scope",
+			scope: "test:scope",
 			mockSetup: func() {
-				db.On("IsAllowed", ctx, "R$admin", "test_scope").
+				db.On("IsAllowed", ctx, "R$admin", "test:scope").
 					Return(true, true, nil).Once()
 			},
 			wantAllowed: true,

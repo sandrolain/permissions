@@ -3,8 +3,8 @@ package dbsvc
 import (
 	"strings"
 
+	"github.com/sandrolain/permissions/internal/models"
 	g "github.com/sandrolain/permissions/pkg/grpc"
-	"github.com/sandrolain/permissions/pkg/models"
 )
 
 func EscapePattern(pattern string) string {

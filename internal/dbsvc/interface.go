@@ -3,7 +3,7 @@ package dbsvc
 import (
 	"context"
 
-	"github.com/sandrolain/permissions/pkg/models"
+	"github.com/sandrolain/permissions/internal/models"
 )
 
 type DBServiceInterface interface {

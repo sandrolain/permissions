@@ -6,8 +6,8 @@ import (
 
 	"github.com/sandrolain/gomsvc/pkg/grpclib"
 	"github.com/sandrolain/permissions/internal/dbsvc"
+	"github.com/sandrolain/permissions/internal/models"
 	g "github.com/sandrolain/permissions/pkg/grpc"
-	"github.com/sandrolain/permissions/pkg/models"
 )
 
 func (m *grpcServer) GetUserRoles(ctx context.Context, request *g.GetUserRolesRequest) (res *g.GetUserRolesResponse, err error) {
