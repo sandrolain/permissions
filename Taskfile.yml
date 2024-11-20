@@ -1,0 +1,32 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build the project
+    cmds:
+      - ./scripts/build.sh
+
+  build-test:
+    desc: Build test image
+    cmds:
+      - ./scripts/build_test_image.sh
+
+  test:
+    desc: Run tests
+    cmds:
+      - ./scripts/test.sh
+
+  benchmark:
+    desc: Run benchmarks
+    cmds:
+      - ./scripts/benchmark.sh
+
+  gen-grpc:
+    desc: Generate gRPC code
+    cmds:
+      - ./scripts/gen-grpc.sh
+
+  start:
+    desc: Start the application
+    cmds:
+      - ./scripts/start.sh
