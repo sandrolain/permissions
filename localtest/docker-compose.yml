@@ -3,33 +3,53 @@ name: permissions-localtest
 
 services:
   db:
-    container_name: db
-    image: postgres:17
+    container_name: permissions-db
+    image: postgres:17-alpine
     restart: always
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: mydatabase
+      PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydatabase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - permissions-network
 
   permissions:
-    build: ..
-    container_name: permissions
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: permissions-service
     restart: always
     environment:
       GRPC_PORT: 9090
-      DB_USER: myuser
-      DB_PASSWORD: mypassword
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: mydatabase
+      POSTGRES_USERNAME: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_HOST: permissions-db
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE: mydatabase
+      POSTGRES_TIMEZONE: Europe/Rome
+      POSTGRES_SSLMODE: disable
     ports:
       - "9090:9090"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - permissions-network
+
+networks:
+  permissions-network:
+    name: permissions-network
 
 volumes:
   pgdata:
+    name: permissions-pgdata

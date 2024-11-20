@@ -41,7 +41,7 @@ func setupNetwork(ctx context.Context) (*testcontainers.DockerNetwork, error) {
 func setupPostgres(ctx context.Context, net *testcontainers.DockerNetwork) (testcontainers.Container, string, error) {
 	pgContainer, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image: "postgres:15-alpine",
+			Image: "postgres:17-alpine",
 			Env: map[string]string{
 				"POSTGRES_USER":     "myuser",
 				"POSTGRES_PASSWORD": "mypassword",

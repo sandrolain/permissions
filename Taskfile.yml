@@ -30,3 +30,9 @@ tasks:
     desc: Start the application
     cmds:
       - ./scripts/start.sh
+
+  local-test:
+    desc: Manage local test environment
+    cmds:
+      - ./scripts/local-test.sh {{.CLI_ARGS}}
+    silent: true
